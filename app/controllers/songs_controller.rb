@@ -5,6 +5,7 @@ class SongsController < ApplicationController
         @song = Song.new
     end 
 
+
     def create
         @song = Song.new(song_params)
         if @song.valid?
@@ -15,6 +16,11 @@ class SongsController < ApplicationController
         end
     end
 
+    def index 
+        @songs = Song.all
+    end 
+
+
     def show
         
     end
@@ -24,8 +30,16 @@ class SongsController < ApplicationController
     end 
 
     def update
-        if Song.update(song_params)
+        if @song.update(song_params)
             redirect_to song_path(@song)
+        else 
+            render :edit
+        end 
+    end 
+
+    def destroy
+        @song.destroy
+        redirect_to songs_path
     end 
 
 
@@ -37,8 +51,7 @@ class SongsController < ApplicationController
     end
 
     def song_params
-        params.require(:song).permit(
-            :title, :released, :release_year, :artist_name, :genre
-            )
-    end
-end
+        params.require(:song).permit(:title, :released, :release_year, :artist_name, :genre) 
+    end 
+end 
+    
